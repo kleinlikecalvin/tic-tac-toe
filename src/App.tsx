@@ -2,7 +2,6 @@ import React from "react";
 import { PossibleWins } from "./constants";
 import { matches } from "./utils";
 import { Player } from "./types";
-// import Square from "./Sqaure";
 import "./App.css";
 
 export default function App() {
@@ -10,6 +9,7 @@ export default function App() {
   const [spaces, setSpaces] = React.useState<Player[]>(Array(9).fill(null));
   const updatedSpaces = [...spaces];
   let message;
+
   const isWinner = React.useMemo(() => {
     for (let i = 0; i < PossibleWins.length; i++) {
       const [a, b, c] = PossibleWins[i];
@@ -38,6 +38,7 @@ export default function App() {
   } else {
     message = `Current Player: ${turn}`;
   }
+
   return (
     <div className="App">
       <div className="board">
@@ -61,7 +62,7 @@ export default function App() {
             setSpaces(Array(9).fill(null));
           }}
         >
-          reset
+          Play again
         </button>
       </div>
     </div>
