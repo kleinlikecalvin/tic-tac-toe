@@ -1,7 +1,6 @@
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
+  font-family: "Arial", "Helvetica Neue", sans-serif;
+  font-weight: bolder;
   --light: #cae7b9;
   --dark: #42213d;
   background-color: var(--light);
