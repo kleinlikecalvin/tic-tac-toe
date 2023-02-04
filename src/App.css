@@ -13,7 +13,7 @@
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);
   width: 400px;
-  height: 400px;
+  min-height: 400px;
   background-color: var(--dark);
 }
 .square {
@@ -48,11 +48,8 @@
 @media screen and (max-width: 1080px) {
   .App {
     flex-direction: column;
-    height: 65vh;
+    gap: 60px;
     max-width: 800px;
-  }
-  .board {
-    width: 50%;
   }
   .square:disabled {
     font-size: 4em;
@@ -66,14 +63,14 @@
 /* MOBILE PHONES */
 @media screen and (max-width: 767px) {
   .App {
-    height: 95vh;
     max-width: 350px;
   }
   .board {
     width: 100%;
-    height: 350px;
+    min-height: 350px;
   }
   .gamePlay {
     width: 100%;
+    padding: 40px 0;
   }
 }
