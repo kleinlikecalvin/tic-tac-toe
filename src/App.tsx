@@ -8,6 +8,7 @@ export default function App() {
   const [turn, setTurn] = React.useState<Player>("X");
   const [spaces, setSpaces] = React.useState<Player[]>(Array(9).fill(null));
   const updatedSpaces = [...spaces];
+  let boardClasses = "board";
   let message;
 
   const isWinner = React.useMemo(() => {
@@ -15,7 +16,10 @@ export default function App() {
       const [a, b, c] = PossibleWins[i];
       const thereIsAMatch = matches(spaces[a], spaces[b], spaces[c]);
       if (thereIsAMatch) {
-        return thereIsAMatch;
+        return {
+          player: thereIsAMatch,
+          squares: [a, b, c],
+        };
       }
     }
   }, [spaces]);
@@ -23,17 +27,14 @@ export default function App() {
   function handleTurn(index: number) {
     updatedSpaces[index] = turn;
     setSpaces(updatedSpaces);
-
-    if (turn === "O") {
-      setTurn("X");
-    } else {
-      setTurn("O");
-    }
+    setTurn(() => (turn === "X" ? "O" : "X"));
   }
 
   if (isWinner) {
-    message = `The Champion is ${isWinner}`;
+    boardClasses = "board game-over";
+    message = `The Champion is ${isWinner.player}`;
   } else if (!updatedSpaces.includes(null) && isWinner === undefined) {
+    boardClasses = "board game-over";
     message = "This game is for the cats";
   } else {
     message = `Current Player: ${turn}`;
@@ -41,19 +42,22 @@ export default function App() {
 
   return (
     <div className="App">
-      <div className="board">
-        {spaces.map((value, index) => (
-          <button
-            className="square"
-            disabled={!!value || isWinner === "X" || isWinner === "O"}
-            key={index}
-            onClick={() => handleTurn(index)}
-          >
-            {value || null}
-          </button>
-        ))}
+      <div className={boardClasses}>
+        {spaces.map((value, index) => {
+          const isWinningSquare = isWinner?.squares.includes(index);
+          return (
+            <button
+              className={isWinningSquare ? "square winner-declared" : "square"}
+              disabled={!!value}
+              key={index}
+              onClick={() => handleTurn(index)}
+            >
+              {value || null}
+            </button>
+          );
+        })}
       </div>
-      <div className="gamePlay">
+      <div className="game-play">
         <div className="turns">{message}</div>
         <button
           className="reset"
@@ -62,7 +66,7 @@ export default function App() {
             setSpaces(Array(9).fill(null));
           }}
         >
-          Play again
+          Reset game
         </button>
       </div>
     </div>
