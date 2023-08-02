@@ -17,16 +17,22 @@
   min-height: 400px;
   background-color: var(--dark);
 }
+.board.game-over {
+  background-color: white;
+}
 .square {
   background-color: var(--light);
   border: none;
+}
+.square.winner-declared {
+  background-color: rgb(152, 251, 152);
 }
 .square:disabled {
   font-family: "Original Surfer", "Arial", "Helvetica Neue", sans-serif;
   color: var(--dark);
   font-size: 6em;
 }
-.gamePlay {
+.game-play {
   display: flex;
   flex-direction: column;
   font-size: 2em;
@@ -48,13 +54,14 @@
 /* TABLETS */
 @media screen and (max-width: 1080px) {
   .App {
+    flex-direction: column;
     gap: 60px;
     max-width: 800px;
   }
   .square:disabled {
     font-size: 4em;
   }
-  .gamePlay {
+  .game-play {
     width: 50%;
     font-size: 1.6em;
   }
@@ -69,7 +76,7 @@
     width: 100%;
     min-height: 350px;
   }
-  .gamePlay {
+  .game-play {
     width: 100%;
     padding: 40px 0;
   }
