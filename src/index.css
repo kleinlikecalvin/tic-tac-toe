@@ -1,8 +1,0 @@
-:root {
-  font-family: "Arial", "Helvetica Neue", sans-serif;
-  font-weight: bolder;
-  --light: #cae7b9;
-  --dark: #42213d;
-  background-color: var(--light);
-  color: var(--dark);
-}
