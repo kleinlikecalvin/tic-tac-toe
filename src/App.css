@@ -6,7 +6,8 @@
   justify-content: space-evenly;
   align-items: center;
   margin: 0 auto;
-  max-width: 1440px;
+  gap: 60px;
+  max-width: 800px;
 }
 .board {
   display: grid;
@@ -53,11 +54,6 @@
 
 /* TABLETS */
 @media screen and (max-width: 1080px) {
-  .App {
-    flex-direction: column;
-    gap: 60px;
-    max-width: 800px;
-  }
   .square:disabled {
     font-size: 4em;
   }
