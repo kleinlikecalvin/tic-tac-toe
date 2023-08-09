@@ -1,23 +1,24 @@
 import { getBestMove } from "./utils";
 
+const x = "X" as const;
+const o = "O" as const;
+const _ = null;
+
 describe("getBestMove", () => {
-  const x = "X";
-  const o = "O";
-  const _ = null;
-  test("mostly empty", () => {
+  test("can make a winning move", () => {
     //prettier-ignore
-    const board = [ x, x, _, 
-                    o, o, _, 
-                    _, _, _];
+    const board = [ x, x, _,
+                    o, o, _,
+                    _, _, _ ];
     const expected = 2;
     const result = getBestMove(board, x);
     expect(result).toEqual(expected);
   });
-  test("let x win or o take win", () => {
+  test("can block a winning move", () => {
     //prettier-ignore
-    const board = [ x, o, o, 
-                    x, x, o, 
-                    _, x, _];
+    const board = [ x, _, x, 
+                    _, o, _, 
+                    _, _, _ ];
     const expected = 8;
     const result = getBestMove(board, o);
     expect(result).toEqual(expected);

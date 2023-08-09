@@ -1,28 +1,16 @@
 import React from "react";
-import { PossibleWins } from "./constants";
-import { matches } from "./utils";
-import { Player } from "./types";
+import { getWinner } from "./utils";
+import { Cell, Player } from "./types";
 import "./App.css";
 
 export default function App() {
   const [turn, setTurn] = React.useState<Player>("X");
-  const [spaces, setSpaces] = React.useState<Player[]>(Array(9).fill(null));
+  const [spaces, setSpaces] = React.useState<Cell[]>(Array(9).fill(null));
   const updatedSpaces = [...spaces];
   let boardClasses = "board";
   let message;
 
-  const isWinner = React.useMemo(() => {
-    for (let i = 0; i < PossibleWins.length; i++) {
-      const [a, b, c] = PossibleWins[i];
-      const thereIsAMatch = matches(spaces[a], spaces[b], spaces[c]);
-      if (thereIsAMatch) {
-        return {
-          player: thereIsAMatch,
-          squares: [a, b, c],
-        };
-      }
-    }
-  }, [spaces]);
+  const isWinner = React.useMemo(() => getWinner(spaces), [spaces]);
 
   function handleTurn(index: number) {
     updatedSpaces[index] = turn;
