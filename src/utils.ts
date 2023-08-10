@@ -19,26 +19,53 @@ export function matches(a: Cell, b: Cell, c: Cell) {
 }
 
 export function getBestMove(currentBoard: Board, player: Player): number {
-  const liveBoard = [...currentBoard];
+  /**
+   * @NOTE
+   * we've got work to do
+   * --Need to disable the users ability to play while the op is taking it's turn
+   * --Update the spaces array with the op's turn
+   * --Create a table to grade the remaining moves
+   */
+  const empties = [];
+
   for (let i = 0; i < currentBoard.length; i++) {
-    var testBoard = [...currentBoard];
-    if (testBoard[i] === null) {
-      testBoard[i] = player;
-      const isWinner = getWinner(testBoard);
-      if (isWinner) {
-        return i;
-      } else {
-        //we've got work to do
-        // Need to disable the users ability to play while the op is taking it's turn
-        // Update the spaces array with the op's turn
-        // Create a table to grade the remaining moves
-      }
+    if (currentBoard[i] === null) {
+      empties.push(i);
     }
   }
-  return 0;
+
+  for (let i = 0; i < empties.length; i++) {
+    var testBoard = [...currentBoard];
+    var index = empties[i];
+
+    testBoard[index] = player;
+    const isWinner = getWinner(testBoard);
+
+    if (isWinner) {
+      return empties[i];
+    }
+  }
+
+  for (let i = 0; i < currentBoard.length; i++) {
+    var testBoard = [...currentBoard];
+    var index = empties[i];
+    const otherPlayer = player === "O" ? "X" : "O";
+
+    testBoard[index] = otherPlayer;
+    const isWinner = getWinner(testBoard);
+
+    if (isWinner) {
+      return empties[i];
+    }
+  }
+
+  const randomNum = Math.floor(Math.random() * empties.length);
+
+  return empties[randomNum];
 }
 
 export type Winner = { player: Cell; squares: [number, number, number] };
+
 export function getWinner(board: Cell[]): Winner | undefined {
   for (let i = 0; i < PossibleWins.length; i++) {
     const [a, b, c] = PossibleWins[i];
