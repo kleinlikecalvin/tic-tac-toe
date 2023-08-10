@@ -78,3 +78,9 @@ export function getWinner(board: Cell[]): Winner | undefined {
     }
   }
 }
+
+export function wait(timeout: number) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, timeout);
+  });
+}

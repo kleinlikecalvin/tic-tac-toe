@@ -1,5 +1,5 @@
 import React from "react";
-import { getWinner } from "./utils";
+import { getWinner, wait, getBestMove } from "./utils";
 import { Cell, Player } from "./types";
 import "./App.css";
 
@@ -12,10 +12,16 @@ export default function App() {
 
   const isWinner = React.useMemo(() => getWinner(spaces), [spaces]);
 
-  function handleTurn(index: number) {
-    updatedSpaces[index] = turn;
-    setSpaces(updatedSpaces);
-    setTurn(() => (turn === "X" ? "O" : "X"));
+  async function handleTurn(index: number) {
+    const board = [...spaces];
+    board[index] = "X";
+    setSpaces([...board]);
+    setTurn("O");
+    await wait(500);
+    const nextMove = getBestMove(board, "O");
+    board[nextMove] = "O";
+    setSpaces([...board]);
+    setTurn("X");
   }
 
   if (isWinner) {
@@ -36,7 +42,7 @@ export default function App() {
           return (
             <button
               className={isWinningSquare ? "square winner-declared" : "square"}
-              disabled={!!value}
+              disabled={!!value || turn === "O"}
               key={index}
               onClick={() => handleTurn(index)}
             >
