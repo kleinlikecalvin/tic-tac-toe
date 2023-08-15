@@ -42,7 +42,7 @@ export default function App() {
           return (
             <button
               className={isWinningSquare ? "square winner-declared" : "square"}
-              disabled={!!value || turn === "O"}
+              disabled={!!value || turn === "O" || !!isWinner}
               key={index}
               onClick={() => handleTurn(index)}
             >
