@@ -1,50 +1,33 @@
 import React from "react";
-import { getWinner, wait, getBestMove } from "./utils";
-import { Cell, Player } from "./types";
+import { useAppState } from "./reducer";
 import "./App.css";
 
 export default function App() {
-  const [turn, setTurn] = React.useState<Player>("X");
-  const [spaces, setSpaces] = React.useState<Cell[]>(Array(9).fill(null));
-  const updatedSpaces = [...spaces];
+  const [state, dispatch] = useAppState();
   let boardClasses = "board";
   let message;
 
-  const isWinner = React.useMemo(() => getWinner(spaces), [spaces]);
-
-  async function handleTurn(index: number) {
-    const board = [...spaces];
-    board[index] = "X";
-    setSpaces([...board]);
-    setTurn("O");
-    await wait(500);
-    const nextMove = getBestMove(board, "O");
-    board[nextMove] = "O";
-    setSpaces([...board]);
-    setTurn("X");
-  }
-
-  if (isWinner) {
+  if (state.winningPlayer) {
     boardClasses = "board game-over";
-    message = `The Champion is ${isWinner.player}`;
-  } else if (!updatedSpaces.includes(null) && isWinner === undefined) {
+    message = `The Champion is ${state.winningPlayer}`;
+  } else if (!state.spaces.includes(null) && state.winningPlayer === null) {
     boardClasses = "board game-over";
     message = "This game is for the cats";
   } else {
-    message = `Current Player: ${turn}`;
+    message = `Current Player: ${state.turn}`;
   }
 
   return (
     <div className="App">
       <div className={boardClasses}>
-        {spaces.map((value, index) => {
-          const isWinningSquare = isWinner?.squares.includes(index);
+        {state.spaces.map((value, index) => {
+          const isWinningSquare = state.winningSquares?.includes(index);
           return (
             <button
               className={isWinningSquare ? "square winner-declared" : "square"}
-              disabled={!!value || turn === "O" || !!isWinner}
+              disabled={!!value || state.turn === "O" || !!state.winningPlayer}
               key={index}
-              onClick={() => handleTurn(index)}
+              onClick={() => dispatch.userPlay(index)}
             >
               {value || null}
             </button>
@@ -56,8 +39,7 @@ export default function App() {
         <button
           className="reset"
           onClick={() => {
-            setTurn("X");
-            setSpaces(Array(9).fill(null));
+            dispatch.reset();
           }}
         >
           Reset game

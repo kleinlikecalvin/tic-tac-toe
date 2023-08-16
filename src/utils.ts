@@ -15,7 +15,7 @@ export function matches(a: Cell, b: Cell, c: Cell) {
   if (a === null) return false;
   if (b !== a) return false;
   if (c !== b) return false;
-  return a;
+  return true;
 }
 
 export function getBestMove(currentBoard: Board, player: Player): number {
@@ -64,19 +64,17 @@ export function getBestMove(currentBoard: Board, player: Player): number {
   return empties[randomNum];
 }
 
-export type Winner = { player: Cell; squares: [number, number, number] };
+export type Winner = [number, number, number];
 
-export function getWinner(board: Cell[]): Winner | undefined {
+export function getWinner(board: Cell[]): Winner | null {
   for (let i = 0; i < PossibleWins.length; i++) {
     const [a, b, c] = PossibleWins[i];
     const thereIsAMatch = matches(board[a], board[b], board[c]);
     if (thereIsAMatch) {
-      return {
-        player: thereIsAMatch,
-        squares: [a, b, c],
-      };
+      return [a, b, c];
     }
   }
+  return null;
 }
 
 export function wait(timeout: number) {
