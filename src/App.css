@@ -15,7 +15,7 @@
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);
   width: 400px;
-  min-height: 400px;
+  height: 400px;
   background-color: var(--dark);
 }
 .board.game-over {
@@ -24,6 +24,7 @@
 .square {
   background-color: var(--light);
   border: none;
+  padding: 0;
 }
 .square.winner-declared {
   background-color: rgb(152, 251, 152);
@@ -57,23 +58,26 @@
   .square:disabled {
     font-size: 4em;
   }
-  .game-play {
-    width: 50%;
-    font-size: 1.6em;
-  }
 }
 
 /* MOBILE PHONES */
 @media screen and (max-width: 767px) {
   .App {
-    max-width: 350px;
+    max-width: 100%;
   }
   .board {
-    width: 100%;
-    min-height: 350px;
+    width: 350px;
+    height: 350px;
+  }
+  .square {
+    max-width: 110px;
+  }
+  .square:disabled {
+    font-size: 2em;
   }
   .game-play {
     width: 100%;
     padding: 40px 0;
+    font-size: 1.4em;
   }
 }
